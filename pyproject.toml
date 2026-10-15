@@ -1,0 +1,61 @@
+[project]
+name = "only-connect-bench"
+version = "0.1.0"
+description = "Inspect AI eval: name the four connections in an Only Connect connecting wall"
+readme = "README.md"
+license = "MIT"
+authors = [{ name = "Jason Gwartz", email = "jason@gwartz.me" }]
+requires-python = ">=3.11"
+dependencies = [
+    "anthropic>=1.14.0",
+    "inspect-ai>=0.3.280",
+    "openai>=3.31.0",
+]
+
+[project.urls]
+Repository = "https://github.com/jasongwartz/OnlyConnectBench"
+Issues = "https://github.com/jasongwartz/OnlyConnectBench/issues"
+
+# Lets `inspect eval only_connect_bench` find the task without a file path.
+[project.entry-points.inspect_ai]
+only_connect_bench = "only_connect_bench"
+
+[build-system]
+requires = ["uv_build>=0.12.23,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.ruff]
+src = ["src"]
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "UP", "B", "SIM", "D", "PT", "RUF", "PLE", "PLW"]
+ignore = [
+    "E501",  # line length is the formatter's job
+    "D10",   # docstrings are not required everywhere
+    "D415",  # summary lines need not end in punctuation
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["D"]
+
+[tool.ruff.format]
+skip-magic-trailing-comma = false
+
+[tool.mypy]
+strict = true
+files = ["src", "tests"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-rA --durations=5"
+
+[dependency-groups]
+dev = [
+    "mypy>=2.4.0",
+    "pytest>=9.1.1",
+    "ruff>=0.17.0",
+]
